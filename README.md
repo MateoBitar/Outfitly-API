@@ -80,7 +80,7 @@ Follow these instructions to set up and run the Outfitly project locally.
       ```
 
 4. **Initialize the Database**:
-   Use the database schema file provided (if available) to create tables and initialize your MySQL database.
+   Use the database schema file provided (Outfitly(DB)) to create tables and initialize your MySQL database.
 
 ### Usage
 To start the server, run:
