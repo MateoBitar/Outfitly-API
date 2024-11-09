@@ -51,7 +51,6 @@ Follow these instructions to set up and run the Outfitly project locally.
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/MateoBitar/OUTFITLY-API
-    cd outfitly
     ```
 
 2. **Install dependencies**:
