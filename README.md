@@ -60,12 +60,12 @@ Follow these instructions to set up and run the Outfitly project locally.
     ```bash
     npm install
     ```
-    **dotenv**
-    **express**
-    **express-validator**
-    **moment**
-    **mysql2**
-    **nodemon**
+    **dotenv**,
+    **express**,
+    **express-validator**,
+    **moment**,
+    **mysql2**,
+    **nodemon**,
     **sharp**
 
 3. **Set up environment variables**:
