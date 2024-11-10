@@ -64,6 +64,14 @@ class UserService {
         const [result] = await this.pool.query('SELECT user_id FROM users WHERE username = ? AND pass = ?', [name, pass]);
         return result.length > 0; // Return true if at least one match is found
     }
+
+    // Check if this username already exists
+    async findUserByName(name) {
+        // Query the database to check if this username is already in use
+        const [existingUser] = await this.pool.query(
+            'SELECT * FROM users WHERE username = ?', [name]);
+        return existingUser.length > 0;
+    }
 }
 
 module.exports = new UserService(); // Export an instance of UserService

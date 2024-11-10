@@ -8,6 +8,11 @@ class UserController {
     async addUser(req, res) {
         try {
             const { name, email, pass, gender, style, fav_color } = req.body; // Extract user data from request body
+            // Check if the username already exists
+            const existingUser = await userService.findUserByName(name);
+            if (existingUser) {
+                return res.status(409).json({ message: 'Username already exists' }); // Respond with error if username is taken
+            }
             const newUser = await userService.addUser({ name, email, pass, gender, style, fav_color }); // Call the service to add user
             res.status(201).json(newUser); // Send back the newly created user with status 201
         } catch (e) {
@@ -47,10 +52,25 @@ class UserController {
         try {
             const id = parseInt(req.params.id, 10); // Convert ID parameter to integer
             const { name, email, pass, gender, style, fav_color } = req.body; // Extract updated user data from request body
+            // Fetch the current user by ID
+            const currentUser = await userService.getUserById(id);
+            // Check if user exists
+            if (!currentUser) {
+                return res.status(404).json({ message: 'User not found'}); // Respond with 404 if user not found
+            }
+            // Check if the username has changed
+            if (name !== currentUser.name) {
+                // If the username has changed, check if the new username already exists
+                const existingUser = await userService.findUserByName(name);
+                if (existingUser) {
+                    return res.status(409).json({ message: 'Username already exists' }); // Respond with 409 if username already exists
+                }
+            }
             const success = await userService.saveUser(id, { name, email, pass, gender, style, fav_color }); // Call the service to update user
             if (!success) {
-                return res.status(404).json({ message: 'User not found or no changes made' }); // Respond with 404 if user not found or no update occurred
+                return res.status(304).json({ message: 'No changes made' }); // Respond with 304 if no update occurred
             }
+            
             res.status(200).json({ message: 'User updated successfully' }); // Respond with success message and status 200
         } catch (e) {
             console.error('Error saving user:', e); // Log error to the console
